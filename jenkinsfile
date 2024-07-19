@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOKCER_USERNAME = 'nandu7163'
+        DOCKER_PASSWORD = 'Nandu9666@'
+    }
+    stages {
+        stage('Docker') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: '${DOKCER_USERNAME}', passwordVariable: '${DOCKER_PASSWORD}')]) {
+                    script {
+                        bat 'docker build -t p3 .'
+                        bat 'docker run -t -d --name p3_cont -p 8043:80 nginx'
+                    }
+                }
+            }
+        }
+    }
+}
